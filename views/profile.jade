@@ -1,0 +1,38 @@
+extends layout
+
+block content
+    h2.page-header Edit User
+    if errors
+      each error, i in errors
+        div.alert.alert-danger #{error.msg}
+    form(method='post', action='/users/update',enctype='multipart/form-data')
+        .form-group
+          label Name
+          input.form-control(name='name',type='text',placeholder='Enter name',id='name',value='#{name}')
+        .form-group
+          label Contact-Number
+          input.form-control(name='contact',type='number',placeholder='Enter contact number',maxlength='10',id='contact',value='#{contact}')
+        .form-group
+          label Email
+          input.form-control(name='email',type='email',placeholder='Enter email',id='email',value='#{email}')
+        .form-group
+          label Username
+          input.form-control(name='username',type='text',placeholder='Enter username',id='username',value='#{uname}')
+        .form-group
+          label User Role
+          select.form-control(name='role')
+            option(value='user', selected=role === 'user') User
+            option(value='admin', selected=role === 'admin') Admin
+        .form-group
+          label Profile Image
+          input.form-control(name='profile',type='file' value='#{profileimage}', accept='image/*')
+          if profileimage
+            p Current file: 
+            img(src='/uploads/#{profileimage}', alt='Profile Image', style='max-width: 32px;')
+            div.form-check
+              input.form-check-input(type='checkbox', id='deleteFile', name='deleteFile', checked=deleteFile)
+              label.form-check-label(for='deleteFile') Delete current file
+        
+        input(type='hidden', name='old_profileimage', value='#{profileimage}')
+        input(type='hidden', name='userId', value='#{userId}')
+        input.btn.btn-primary(type='submit',value='Save')
